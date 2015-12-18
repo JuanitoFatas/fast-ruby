@@ -365,6 +365,23 @@ Comparison:
           Array#last:  7639254.5 i/s - 1.12x slower
 ```
 
+##### `!Array#empty?` vs `Array#any?` [code](code/array/array-any-vs-not-empty.rb)
+
+```
+$ ruby -v code/array/array-any-vs-not-empty.rb
+ruby 2.2.1p85 (2015-02-26 revision 49769) [x86_64-linux]
+
+Calculating -------------------------------------
+       !Array#empty?   143.635k i/100ms
+          Array#any?   134.023k i/100ms
+-------------------------------------------------
+       !Array#empty?      7.107M (± 1.9%) i/s -     35.621M
+          Array#any?      6.760M (± 1.9%) i/s -     33.908M
+
+Comparison:
+       !Array#empty?:  7107124.9 i/s
+          Array#any?:  6760372.4 i/s - 1.05x slower
+```
 
 ### Enumerable
 
