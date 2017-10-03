@@ -1119,6 +1119,38 @@ String#chomp'string':  2803443.5 i/s
   String#sub/regexp/:   660508.7 i/s - 4.24x slower
 ```
 
+##### `String#sub` vs `String#slice!` [code](code/string/sub-vs-slice.rb)
+
+Note that this can only be used for removing characters from the begining of a string.
+```
+$ ruby -v code/string/sub-vs-slice.rb
+ruby 2.3.3p222 (2016-11-21 revision 56859) [x86_64-darwin15]
+
+Warming up --------------------------------------
+      String#[integer, integer]   180.142k i/100ms
+        String#slice!('string')   191.881k i/100ms
+           String#sub('string')   140.937k i/100ms
+String#slice!(integer, integer)   130.831k i/100ms
+        String#slice!(/regexp/)   132.158k i/100ms
+             String#sub/regexp/   107.727k i/100ms
+
+Calculating -------------------------------------
+      String#[integer, integer]   5.599M (±18.1%) i/s -     26.828M in   5.053842s
+        String#slice!('string')   4.241M (±19.4%) i/s -     20.009M in   5.003477s
+           String#sub('string')   2.393M (± 7.5%) i/s -     11.923M in   5.015963s
+String#slice!(integer, integer)   2.216M (± 9.1%) i/s -     11.051M in   5.044916s
+        String#slice!(/regexp/)   2.209M (± 6.7%) i/s -     11.073M in   5.042409s
+             String#sub/regexp/   1.635M (± 7.1%) i/s -      8.136M in   5.006224s
+
+Comparison:
+      String#[integer, integer]:  5929827.9 i/s
+        String#slice!('string'):  4760290.3 i/s - 1.25x  slower
+           String#sub('string'):  2280410.0 i/s - 2.60x  slower
+        String#slice!(/regexp/):  2182518.0 i/s - 2.72x  slower
+String#slice!(integer, integer):  1812803.9 i/s - 3.27x  slower
+             String#sub/regexp/:  1502795.4 i/s - 3.95x  slower
+```
+
 ##### `attr_accessor` vs `getter and setter` [code](code/general/attr-accessor-vs-getter-and-setter.rb)
 
 > https://www.omniref.com/ruby/2.2.0/files/method.h?#annotation=4081781&line=47
