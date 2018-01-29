@@ -188,6 +188,26 @@ Comparison:
          Kernel loop:        0.2 i/s - 2.41x slower
 ```
 
+##### Safe method navigation vs explicit presence check vs vs `#try!` [code](code/general/safe-navigation-vs-explicit-check.rb)
+Use of safe navigation operator on happy path is almost as efficient as regular method chaining
+
+```
+$ ruby -v code/general/safe-navigation-vs-explicit-check.rb
+ruby 2.3.0p0 (2015-12-25 revision 53290) [x86_64-linux]
+
+Calculating -------------------------------------
+safe navigation operator
+                          6.832M (± 4.3%) i/s -     34.164M in   5.010672s
+explicit presence check
+                          5.859M (± 4.3%) i/s -     29.372M in   5.022765s
+               #try!      1.704M (± 3.5%) i/s -      8.542M in   5.018823s
+
+Comparison:
+safe navigation operator:  6831625.7 i/s
+explicit presence check:  5858661.3 i/s - 1.17x slower
+               #try!:  1704316.7 i/s - 4.01x slower
+```
+
 #### Method Invocation
 
 ##### `call` vs `send` vs `method_missing` [code](code/method/call-vs-send-vs-method_missing.rb)
