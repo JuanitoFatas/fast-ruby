@@ -188,6 +188,39 @@ Comparison:
          Kernel loop:        0.2 i/s - 2.41x slower
 ```
 
+##### `return or =` vs `||=` when implementing memoization [code](code/general/return-or-set-vs-or-equals.rb)
+
+```
+ruby 2.4.1p111 (2017-03-22 revision 58053) [x86_64-linux-gnu]
+Warming up --------------------------------------
+                 ||=    12.497k i/100ms
+return @value if defined?(@value) && @value
+                        11.206k i/100ms
+return @value if defined?(@value)
+                        11.821k i/100ms
+return @value if @value
+                        16.062k i/100ms
+@value || @value = VALUE
+                        16.683k i/100ms
+Calculating -------------------------------------
+                 ||=    126.727k (± 3.9%) i/s -    637.347k in   5.037382s
+return @value if defined?(@value) && @value
+                        114.310k (± 3.3%) i/s -    571.506k in   5.005687s
+return @value if defined?(@value)
+                        122.356k (± 1.9%) i/s -    614.692k in   5.025588s
+return @value if @value
+                        166.475k (± 1.1%) i/s -    835.224k in   5.017692s
+@value || @value = VALUE
+                        167.918k (± 3.4%) i/s -    850.833k in   5.073262s
+
+Comparison:
+@value || @value = VALUE:   167918.4 i/s
+return @value if @value:   166475.5 i/s - same-ish: difference falls within error
+                 ||=:   126727.3 i/s - 1.33x  slower
+return @value if defined?(@value):   122355.8 i/s - 1.37x  slower
+return @value if defined?(@value) && @value:   114309.5 i/s - 1.47x  slower
+```
+
 #### Method Invocation
 
 ##### `call` vs `send` vs `method_missing` [code](code/method/call-vs-send-vs-method_missing.rb)
