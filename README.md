@@ -986,6 +986,8 @@ Comparison:
           block.call:   842581.2 i/s - 4.54x slower
 ```
 
+Note, that since 2.5 `block argument` and `yield` have same-ish speed.
+See [[Feature #14045]](https://bugs.ruby-lang.org/issues/14045)
 
 ### String
 
