@@ -963,7 +963,7 @@ Comparison:
 
 ##### `Proc#call` and block arguments vs `yield`[code](code/proc-and-block/proc-call-vs-yield.rb)
 
-In MRI Ruby, block arguments [are converted to Procs](https://www.omniref.com/ruby/2.2.0/symbols/Proc/yield?#annotation=4087638&line=711), which incurs a heap allocation.
+In MRI Ruby 2.4 and earlier, block arguments [are converted to Procs](https://www.omniref.com/ruby/2.2.0/symbols/Proc/yield?#annotation=4087638&line=711), which incurs a heap allocation.
 
 ```
 $ ruby -v code/proc-and-block/proc-call-vs-yield.rb
@@ -986,6 +986,28 @@ Comparison:
           block.call:   842581.2 i/s - 4.54x slower
 ```
 
+CRuby 2.5 introduces [lazy Proc allocation for block parameters](https://bugs.ruby-lang.org/issues/14045), which speeds things up by about 3x.
+
+```
+$ ruby -v code/proc-and-block/proc-call-vs-yield.rb
+ruby 2.5.0p0 (2017-12-25 revision 61468) [x86_64-darwin17]
+Warming up --------------------------------------
+          block.call   161.026k i/100ms
+       block + yield   287.981k i/100ms
+      block argument   304.921k i/100ms
+               yield   277.501k i/100ms
+Calculating -------------------------------------
+          block.call      2.445M (± 7.8%) i/s -     12.238M in   5.036492s
+       block + yield      7.518M (± 7.0%) i/s -     37.438M in   5.005914s
+      block argument      8.559M (± 6.9%) i/s -     42.689M in   5.010211s
+               yield      7.826M (± 5.3%) i/s -     39.128M in   5.013577s
+
+Comparison:
+      block argument:  8558548.6 i/s
+               yield:  7826224.5 i/s - same-ish: difference falls within error
+       block + yield:  7517855.1 i/s - same-ish: difference falls within error
+          block.call:  2444708.2 i/s - 3.50x  slower
+```
 
 ### String
 
