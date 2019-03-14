@@ -963,6 +963,26 @@ Array#each_w/_object:  1352851.8 i/s - 1.88x  slower
 Hash#select-include :   760944.2 i/s - 3.34x  slower
 ```
 
+##### `Hash#values_at` vs `Hash#slice#values`
+[code](code/hash/values_at-vs-slice-values.rb)
+
+To select hash values by keys.
+
+```
+$ ruby -v code/hash/values_at-vs-slice-values.rb
+ruby 2.6.1p33 (2019-01-30 revision 66950) [x86_64-darwin18]
+Warming up --------------------------------------
+   Hash#values_at      284.628k i/100ms
+   Hash#slice#values   230.279k i/100ms
+Calculating -------------------------------------
+   Hash#values_at         7.179M (± 7.4%) i/s -     35.863M in   5.034179s
+   Hash#slice#values      4.458M (± 4.1%) i/s -     22.337M in   5.019922s
+
+Comparison:
+   Hash#values_at   :  7178610.6 i/s
+   Hash#slice#values:  4458017.0 i/s - 1.61x  slower
+```
+
 
 ### Proc & Block
 
