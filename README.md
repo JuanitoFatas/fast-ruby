@@ -46,6 +46,7 @@ Idioms
 
 - [General](#general)
 - [Array](#array)
+- [BigDecimal](#bigdecimal)
 - [Date](#date)
 - [Enumerable](#enumerable)
 - [Hash](#hash)
@@ -653,6 +654,34 @@ Comparison:
        inject symbol:    19001.5 i/s
       inject to_proc:    15958.3 i/s - 1.19x slower
         inject block:    14063.1 i/s - 1.35x slower
+```
+
+### BigDecimal
+
+##### `BigDecimal('1')` vs `BigDecimal('1.0')` vs `'1'.to_d` vs `'1.0'.to_d` vs `BigDecimal(1)` vs `1.to_d` vs `BigDecimal(1.0, 2)` vs `1.0.to_d` [code](code/bigdecimal/string-vs-numeric.rb)
+
+```
+$ ruby -v code/bigdecimal/string-vs-numeric.rb
+ruby 2.5.3p105 (2018-10-18 revision 65156) [x86_64-darwin18]
+Calculating -------------------------------------
+  integer string new      2.497M (± 2.0%) i/s -     12.645M in   5.066385s
+    float string new      2.414M (± 2.0%) i/s -     12.182M in   5.048473s
+ integer string to_d      2.402M (± 1.8%) i/s -     12.010M in   5.001784s
+   float string to_d      2.318M (± 1.8%) i/s -     11.663M in   5.032429s
+         integer new      1.601M (± 1.2%) i/s -      8.022M in   5.010201s
+        integer to_d      1.563M (± 1.8%) i/s -      7.817M in   5.001726s
+           float new    517.635k (± 4.5%) i/s -      2.604M in   5.042605s
+          float to_d    529.413k (± 3.6%) i/s -      2.671M in   5.051477s
+
+Comparison:
+  integer string new:  2496860.3 i/s
+    float string new:  2414122.8 i/s - same-ish: difference falls within error
+ integer string to_d:  2401929.3 i/s - 1.04x  slower
+   float string to_d:  2318272.7 i/s - 1.08x  slower
+         integer new:  1601402.4 i/s - 1.56x  slower
+        integer to_d:  1563335.6 i/s - 1.60x  slower
+          float to_d:   529412.7 i/s - 4.72x  slower
+           float new:   517634.5 i/s - 4.82x  slower
 ```
 
 ### Date
