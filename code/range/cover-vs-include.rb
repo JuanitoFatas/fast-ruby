@@ -10,6 +10,7 @@ Benchmark.ips do |x|
   x.report('range#include?') { (BEGIN_OF_JULY..END_OF_JULY).include? DAY_IN_JULY }
   x.report('range#member?') { (BEGIN_OF_JULY..END_OF_JULY).member? DAY_IN_JULY }
   x.report('plain compare') { BEGIN_OF_JULY < DAY_IN_JULY && DAY_IN_JULY < END_OF_JULY }
-
+  x.report('between?') { DAY_IN_JULY.between?(BEGIN_OF_JULY,END_OF_JULY) }
+  
   x.compare!
 end
