@@ -963,6 +963,76 @@ Array#each_w/_object:  1352851.8 i/s - 1.88x  slower
 Hash#select-include :   760944.2 i/s - 3.34x  slower
 ```
 
+##### `Hash#values_at` vs `Hash#slice#values` vs `Array#map { Hash#[] }`
+[code](code/hash/values_at-vs-map-vs-slice-values.rb)
+
+To select hash values by keys, when all the keys exist in the hash.
+
+```
+$ ruby -v code/hash/values_at-vs-map-vs-slice-values.rb
+ruby 2.6.2p47 (2019-03-13 revision 67232) [x86_64-darwin18]
+Warming up --------------------------------------
+   Hash#values_at      298.254k i/100ms
+   Array#map           250.633k i/100ms
+   Hash#slice#values   243.267k i/100ms
+Calculating -------------------------------------
+   Hash#values_at         7.540M (± 1.5%) i/s -     37.878M in   5.025027s
+   Array#map              5.119M (± 2.3%) i/s -     25.815M in   5.045566s
+   Hash#slice#values      4.817M (± 1.7%) i/s -     24.083M in   5.001133s
+
+Comparison:
+   Hash#values_at   :  7539658.6 i/s
+   Array#map        :  5119405.7 i/s - 1.47x  slower
+   Hash#slice#values:  4817081.6 i/s - 1.57x  slower
+```
+
+##### `Hash#values_at` vs `Array#map { Hash#[] }`
+[code](code/hash/values_at-vs-map.rb)
+
+To select hash values by keys, when some of the keys may not exist in the hash,
+and you care about the default values. 
+
+```
+$ ruby -v code/hash/values_at-vs-map.rb
+ruby 2.6.2p47 (2019-03-13 revision 67232) [x86_64-darwin18]
+Warming up --------------------------------------
+Hash#values_at         245.809k i/100ms
+Array#map { Hash#[] }  185.153k i/100ms
+Calculating -------------------------------------
+Hash#values_at            5.284M (± 3.3%) i/s -     26.547M in   5.030606s
+Array#map { Hash#[] }     3.104M (± 2.7%) i/s -     15.553M in   5.014067s
+
+Comparison:
+Hash#values_at       :  5283787.1 i/s
+Array#map { Hash#[] }:  3104255.1 i/s - 1.70x  slower
+```
+
+##### `Hash#slice#values` vs `Hash#values_at#compact` vs `Array#map { Hash#[] }#compact`
+[code](code/hash/values_at-vs-map.rb)
+
+To select hash values by keys, when some of the keys may not exist in the hash,
+and you care only about the intersection (i.e. ignore the default values).
+
+NOTE: `#compact`-based methods only work when the default value of `Hash` is
+`nil`.
+
+```
+$ ruby -v code/hash/values_at-compact-vs-slice-values-vs-map-compact.rb
+ruby 2.6.2p47 (2019-03-13 revision 67232) [x86_64-darwin18]
+Warming up --------------------------------------
+Hash#slice#values       227.519k i/100ms
+Hash#values_at#compact  211.820k i/100ms
+Array#map#compact       159.760k i/100ms
+Calculating -------------------------------------
+Hash#slice#values         4.420M (± 1.5%) i/s -     22.297M in   5.046173s
+Hash#values_at#compact    3.926M (± 1.6%) i/s -     19.699M in   5.019481s
+Array#map#compact         2.508M (± 2.2%) i/s -     12.621M in   5.034508s
+
+Comparison:
+Hash#slice#values     :  4419599.9 i/s
+Hash#values_at#compact:  3925677.1 i/s - 1.13x  slower
+Array#map#compact     :  2508230.2 i/s - 1.76x  slower
+```
 
 ### Proc & Block
 
