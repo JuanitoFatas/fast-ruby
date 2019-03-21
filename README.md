@@ -412,6 +412,40 @@ Comparison:
          Array#first:  7464526.6 i/s - 1.15x slower
 ```
 
+##### `Array#reverse.first` vs `Array#last.reverse` [code](code/array/array-reverse-first-vs-last-reverse.rb)
+
+```
+$ ruby -v code/array/array-reverse-first-vs-last-reverse.rb 
+ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-linux-gnu]
+Calculating -------------------------------------
+  Array#last.reverse    173716 i/100ms
+ Array#reverse.first    185200 i/100ms
+-------------------------------------------------
+  Array#last.reverse  2979241.2 (±15.4%) i/s -   14592144 in   5.032457s
+ Array#reverse.first  4708324.1 (±10.7%) i/s -   23150000 in   5.002187s
+
+Comparison:
+ Array#reverse.first:  4708324.1 i/s
+  Array#last.reverse:  2979241.2 i/s - 1.58x slower
+```
+
+##### `Array#reverse.last` vs `Array#first.reverse` [code](code/array/array-reverse-last-vs-first-reverse.rb)
+
+```
+$ ruby -v code/array/array-reverse-last-vs-first-reverse.rb 
+ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-linux-gnu]
+Calculating -------------------------------------
+ Array#first.reverse    175702 i/100ms
+  Array#reverse.last    189397 i/100ms
+-------------------------------------------------
+ Array#first.reverse  3117299.3 (±12.9%) i/s -   15461776 in   5.057007s
+  Array#reverse.last  4551520.3 (±10.7%) i/s -   22538243 in   5.027416s
+
+Comparison:
+  Array#reverse.last:  4551520.3 i/s
+ Array#first.reverse:  3117299.3 i/s - 1.46x slower
+```
+
 ##### `Array#[](-1)` vs `Array#last` [code](code/array/array-last-vs-index.rb)
 
 ```
