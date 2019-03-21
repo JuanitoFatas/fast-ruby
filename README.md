@@ -447,6 +447,32 @@ Comparison:
         Array#insert:        0.2 i/s - 262.56x slower
 ```
 
+##### Subset detection with various methods [code](code/array/subset-checking.rb)
+
+```
+$ ruby -v code/array/subset-checking.rb
+ruby 2.4.1p111 (2017-03-22 revision 58053) [x86_64-linux]
+Warming up --------------------------------------
+    (a1 - a2).empty?    19.534k i/100ms
+     (a1 & a2) == a1    16.190k i/100ms
+ Array#all?#include?    27.391k i/100ms
+        Array#&#size    16.949k i/100ms
+         Set#subset?     4.289k i/100ms
+Calculating -------------------------------------
+    (a1 - a2).empty?    206.885k (± 2.0%) i/s -      1.035M in   5.006270s
+     (a1 & a2) == a1    169.425k (± 2.4%) i/s -    858.070k in   5.067497s
+ Array#all?#include?    291.863k (± 2.1%) i/s -      1.479M in   5.070021s
+        Array#&#size    176.342k (± 2.9%) i/s -    898.297k in   5.098513s
+         Set#subset?     43.342k (± 3.0%) i/s -    218.739k in   5.051749s
+
+Comparison:
+ Array#all?#include?:   291862.7 i/s
+    (a1 - a2).empty?:   206885.5 i/s - 1.41x  slower
+        Array#&#size:   176341.9 i/s - 1.66x  slower
+     (a1 & a2) == a1:   169424.9 i/s - 1.72x  slower
+         Set#subset?:    43341.6 i/s - 6.73x  slower
+```
+
 ### Enumerable
 
 ##### `Enumerable#each + push` vs `Enumerable#map` [code](code/enumerable/each-push-vs-map.rb)
