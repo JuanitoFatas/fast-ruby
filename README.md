@@ -445,6 +445,26 @@ Calculating -------------------------------------
 Comparison:
        Array#unshift:       44.9 i/s
         Array#insert:        0.2 i/s - 262.56x slower
+
+```
+##### `Array#concat` vs `Array#+` [code](code/array/array-concat-vs-+.rb)
+`Array#+` returns a new array built by concatenating the two arrays together to
+produce a third array. `Array#concat` appends the elements of the other array to self.
+This means that the + operator will create a new array each time it is called
+(which is expensive), while concat only appends the new element.
+```
+$ ruby -v code/array/array-concat-vs-+.rb
+ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-darwin18]
+Warming up --------------------------------------
+        Array#concat    23.000  i/100ms
+             Array#+     1.000  i/100ms
+Calculating -------------------------------------
+        Array#concat    217.669  (±15.2%) i/s -      1.058k in   5.016952s
+             Array#+      1.475  (± 0.0%) i/s -      8.000  in   5.467642s
+
+Comparison:
+        Array#concat:      217.7 i/s
+             Array#+:        1.5 i/s - 147.54x  slower
 ```
 
 ### Enumerable
