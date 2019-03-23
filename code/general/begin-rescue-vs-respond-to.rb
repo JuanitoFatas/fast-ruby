@@ -1,13 +1,5 @@
 require 'benchmark/ips'
 
-def slow
-  begin
-    writing
-  rescue
-    'fast ruby'
-  end
-end
-
 def fast
   if respond_to?(:writing)
     writing
@@ -16,8 +8,16 @@ def fast
   end
 end
 
+def slow
+  begin
+    writing
+  rescue
+    'fast ruby'
+  end
+end
+
 Benchmark.ips do |x|
-  x.report('begin...rescue') { slow }
   x.report('respond_to?')    { fast }
+  x.report('begin...rescue') { slow }
   x.compare!
 end
