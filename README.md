@@ -328,24 +328,27 @@ Comparison:
 
 ### Array
 
-##### `Array#bsearch` vs `Array#find` [code](code/array/bsearch-vs-find.rb)
+##### `Array#bsearch` vs `Array#find` vs `Array#sort#bsearch` [code](code/array/bsearch-vs-find.rb)
 
 **WARNING:** `bsearch` ONLY works on *sorted array*. More details please see [#29](https://github.com/JuanitoFatas/fast-ruby/issues/29).
 
 ```
 $ ruby -v code/array/bsearch-vs-find.rb
-ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-darwin14]
+ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-darwin13]
 
 Calculating -------------------------------------
                 find     1.000  i/100ms
-             bsearch    42.216k i/100ms
+        sort.bsearch     9.000  i/100ms
+             bsearch    47.798k i/100ms
 -------------------------------------------------
-                find      0.184  (± 0.0%) i/s -      1.000  in   5.434758s
-             bsearch    577.301k (± 6.6%) i/s -      2.913M
+                find     12.795  (± 7.8%) i/s -     64.000
+        sort.bsearch     98.675  (± 6.1%) i/s -    495.000
+             bsearch    723.115k (± 5.8%) i/s -      3.633M
 
 Comparison:
-             bsearch:   577300.7 i/s
-                find:        0.2 i/s - 3137489.63x slower
+             bsearch:   723114.6 i/s
+        sort.bsearch:       98.7 i/s - 7328.22x slower
+                find:       12.8 i/s - 56513.66x slower
 ```
 
 ##### `Array#length` vs `Array#size` vs `Array#count` [code](code/array/length-vs-size-vs-count.rb)
