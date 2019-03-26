@@ -491,18 +491,18 @@ Comparison:
 
 ```
 $ ruby -v code/enumerable/each_with_index-vs-while-loop.rb
-ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-darwin14]
-
+ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-linux]
 Calculating -------------------------------------
-          While Loop    22.553k i/100ms
-     each_with_index    11.963k i/100ms
--------------------------------------------------
-          While Loop    240.752k (± 7.1%) i/s -      1.218M
-     each_with_index    126.753k (± 5.9%) i/s -    634.039k
+       While optimal    443.606  (± 2.5%) i/s -      2.250k in   5.075720s
+   While cached size    441.961  (± 0.5%) i/s -      2.244k in   5.077426s
+          While loop    363.202  (± 3.3%) i/s -      1.836k in   5.061400s
+     each_with_index    277.373  (± 1.1%) i/s -      1.404k in   5.062208s
 
 Comparison:
-          While Loop:   240752.1 i/s
-     each_with_index:   126753.4 i/s - 1.90x slower
+       While optimal:      443.6 i/s
+   While cached size:      442.0 i/s - same-ish: difference falls within error
+          While loop:      363.2 i/s - 1.22x  slower
+     each_with_index:      277.4 i/s - 1.60x  slower
 ```
 
 ##### `Enumerable#map`...`Array#flatten` vs `Enumerable#flat_map` [code](code/enumerable/map-flatten-vs-flat_map.rb)
@@ -1393,6 +1393,27 @@ Calculating -------------------------------------
 Comparison:
         Time.iso8601:   114485.1 i/s
           Time.parse:    43710.9 i/s - 2.62x  slower
+```
+
+##### `Time#+` vs `Time.at(Time#to_f+)` [code](code/time/plus-vs-to_f-plus.rb)
+
+This covers both high and low precision since high precision operations are more expensive. 
+Time#+ is slow because it calls Float#to_r and does a bunch of Bignum operations to avoid overflowing if the offset is ever insanely high.
+
+```
+$ ruby -v code/time/plus-vs-to_f-plus.rb
+ruby 2.5.1p57 (2018-03-29 revision 63029) [x86_64-linux]
+Calculating -------------------------------------
+    Time#to_f+ (low)      1.485k (± 1.5%) i/s -      7.548k in   5.084706s
+        Time#+ (low)    854.005  (± 4.2%) i/s -      4.300k in   5.046595s
+   Time#to_f+ (high)      1.051k (± 1.4%) i/s -      5.355k in   5.094035s
+       Time#+ (high)    836.424  (± 7.7%) i/s -      4.165k in   5.021368s
+
+Comparison:
+    Time#to_f+ (low):     1484.8 i/s
+   Time#to_f+ (high):     1051.4 i/s - 1.41x  slower
+        Time#+ (low):      854.0 i/s - 1.74x  slower (3.11x on i386-mingw32)
+       Time#+ (high):      836.4 i/s - 1.78x  slower (3.02x on i386-mingw32)
 ```
 
 ### Range
