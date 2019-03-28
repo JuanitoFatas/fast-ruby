@@ -4,24 +4,20 @@ bundler_args: --retry=3 --jobs=3
 language: ruby
 before_install:
   # https://github.com/travis-ci/travis-ci/issues/8978#issuecomment-354036443
-  - gem update --system
+  # - gem update --system
   - gem install bundler
 rvm:
-  - 2.5.1
-  - 2.4.3
-  - 2.3.0
-  - 2.1.8
-  - 2.2.4
+  - 2.4.5
+  - 2.5.3
+  - 2.6.0
   - ruby-head
-  - jruby-9.0.4.0
+  - jruby-9.2.5.0
   - jruby-head
-  - rbx-2
+  - rbx-3.107
 matrix:
   allow_failures:
-    - rvm: 2.1.8
-    - rvm: 2.2.4
     - rvm: ruby-head
-    - rvm: jruby-9.0.4.0
+    - rvm: jruby-9.2.5.0
     - rvm: jruby-head
-    - rvm: rbx-2
+    - rvm: rbx-3.107
   fast_finish: true
