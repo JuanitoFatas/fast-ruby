@@ -705,6 +705,74 @@ Comparison:
   Hash#fetch, string:  3981166.5 i/s - 1.89x slower
 ```
 
+##### `Hash['key']` vs `Hash[:key]` [code](code/hash/string-keys-vs-symbol-keys.rb)
+
+In ruby 2.3.5 *generating* Hash with Symbol keys are a bit more performant than String keys. But the difference is insignificant for Hash with 1 pair of key/value.
+In ruby 2.4.2  Symbol keys are about 15%-19% faster. Using String keys can come with a small penalty, as seen below.
+
+```
+$ruby -v code/hash/string-keys-vs-symbol-keys.rb
+ruby 2.4.2p198 (2017-09-14 revision 59899) [x86_64-darwin16]
+Generating simple Hashes with just 1 key/value using different types of keys
+Generating using implicit form
+Warming up --------------------------------------
+        {symbol: 42}   112.603k i/100ms
+     {:symbol => 42}   113.512k i/100ms
+     {'sym_str': 42}   111.994k i/100ms
+    {"string" => 42}   109.474k i/100ms
+    {'string' => 42}   110.688k i/100ms
+Calculating -------------------------------------
+        {symbol: 42}      1.731M (± 2.0%) i/s -      8.670M in   5.010332s
+     {:symbol => 42}      1.714M (± 2.0%) i/s -      8.627M in   5.034970s
+     {'sym_str': 42}      1.711M (± 3.5%) i/s -      8.624M in   5.046647s
+    {"string" => 42}      1.508M (± 9.3%) i/s -      7.554M in   5.064608s
+    {'string' => 42}      1.453M (± 5.7%) i/s -      7.305M in   5.045950s
+
+Comparison:
+        {symbol: 42}:  1731221.3 i/s
+     {:symbol => 42}:  1714113.4 i/s - same-ish: difference falls within error
+     {'sym_str': 42}:  1711084.8 i/s - same-ish: difference falls within error
+    {"string" => 42}:  1508413.1 i/s - 1.15x  slower
+    {'string' => 42}:  1452896.9 i/s - 1.19x  slower
+```
+
+However if you need to generate large Hash with 1000 key/value pairs the difference becomes more obvious. Hash with symbol keys is about 32%-37% faster (in ruby 2.3.5 it is about 17% faster). Reading Hash with Symbol keys is also faster by about 23%. The bigger is your Hash the more apparent the difference. Depending on how values in pairs are generated, performance could be even better, upto 2x times. [code](code/hash/string-keys-vs-symbol-keys-with-1000-pairs.rb). However using 'string_key'.freeze  could result in comparable performance, on a large Hash.
+
+```
+ruby -v code/hash/string-keys-vs-symbol-keys-with-1000-pairs.rb                                                                                                                                                                                                                                   Mon Oct  9 10:14:49 2017
+ruby 2.4.2p198 (2017-09-14 revision 59899) [x86_64-darwin16]
+Creating large Hash
+Warming up --------------------------------------
+         Symbol Keys   326.000  i/100ms
+         String Keys   241.000  i/100ms
+         Frozen Keys   293.000  i/100ms
+Calculating -------------------------------------
+         Symbol Keys      3.262k (± 3.7%) i/s -     16.300k in   5.003892s
+         String Keys      2.477k (± 4.4%) i/s -     12.532k in   5.069933s
+         Frozen Keys      3.023k (± 4.6%) i/s -     15.236k in   5.050441s
+
+Comparison:
+         Symbol Keys:     3262.0 i/s
+         Frozen Keys:     3023.2 i/s - same-ish: difference falls within error
+         String Keys:     2476.7 i/s - 1.32x  slower
+
+Reading large Hash
+Warming up --------------------------------------
+         Symbol Keys   212.401k i/100ms
+         String Keys   190.175k i/100ms
+         Frozen Keys   205.491k i/100ms
+Calculating -------------------------------------
+         Symbol Keys      5.281M (± 8.1%) i/s -     26.338M in   5.022333s
+         String Keys      4.276M (± 6.2%) i/s -     21.300M in   5.000911s
+         Frozen Keys      4.791M (± 6.0%) i/s -     24.042M in   5.036991s
+
+Comparison:
+         Symbol Keys:  5280882.7 i/s
+         Frozen Keys:  4791128.0 i/s - same-ish: difference falls within error
+         String Keys:  4275730.5 i/s - 1.24x  slower
+```
+
+
 ##### `Hash#dig` vs `Hash#[]` vs `Hash#fetch` [code](code/hash/dig-vs-[]-vs-fetch.rb)
 
 [Ruby 2.3 introduced `Hash#dig`](http://ruby-doc.org/core-2.3.0/Hash.html#method-i-dig) which is a readable
