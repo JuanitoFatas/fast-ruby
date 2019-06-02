@@ -1,10 +1,10 @@
 require 'benchmark/ips'
 
-ARRAY = [*1..100]
+$array = [*1..100]
 
 Benchmark.ips do |x|
-  x.report("Array#length") { ARRAY.length }
-  x.report("Array#size") { ARRAY.size }
-  x.report("Array#count") { ARRAY.count }
+  x.report("Array#length", "$array.length;" * 1_000)
+  x.report("Array#size",   "$array.size;"   * 1_000)
+  x.report("Array#count",  "$array.count;"  * 1_000)
   x.compare!
 end
