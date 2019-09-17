@@ -447,6 +447,25 @@ Comparison:
         Array#insert:        0.2 i/s - 262.56x slower
 ```
 
+##### `Array#new` vs `Fixnum#times + map` [code](code/array/array-new-vs-fixnum-times-map.rb)
+
+Typical slowdown is 40-60% depending on the size of the array. See the corresponding
+[pull request](https://github.com/JuanitoFatas/fast-ruby/pull/91/) for performance characteristics.
+
+```
+ruby 2.3.0p0 (2015-12-25 revision 53290) [x86_64-darwin15]
+Calculating -------------------------------------
+           Array#new    63.875k i/100ms
+  Fixnum#times + map    48.010k i/100ms
+-------------------------------------------------
+           Array#new      1.070M (± 2.2%) i/s -      5.365M
+  Fixnum#times + map    678.097k (± 2.7%) i/s -      3.409M
+
+Comparison:
+           Array#new:  1069837.0 i/s
+  Fixnum#times + map:   678097.4 i/s - 1.58x slower
+```
+
 ### Enumerable
 
 ##### `Enumerable#each + push` vs `Enumerable#map` [code](code/enumerable/each-push-vs-map.rb)
