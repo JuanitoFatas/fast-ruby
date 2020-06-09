@@ -447,6 +447,30 @@ Comparison:
         Array#insert:        0.2 i/s - 262.56x slower
 ```
 
+#### `Array#each` vs `Array#to_h` vs `Hash::[]` plus `Array#map` vs `Array#map` plus `Array#to_h` vs `Enumerable#each_with_object` vs `Object#tap` plus `Array#each`
+
+The option to process a block when given was added to `to_h` in Ruby 2.6.
+
+```
+$ ruby -v code/array/toh-vs-each-vs-Hash\[\]-map-vs-map-toh-vs-each-with-object-vs-tap-each.rb
+ruby 2.7.0p0 (2019-12-25 revision 647ee6f091) [x86_64-darwin18]
+Calculating -------------------------------------
+                 Array#to_h   478.397k (± 4.0%) i/s -      2.410M in   5.046234s
+                 Array#each   526.423k (± 3.3%) i/s -      2.673M in   5.083944s
+    Hash::[] plus Array#map   410.417k (± 4.6%) i/s -      2.053M in   5.013472s
+  Array#map plus Array#to_h   412.382k (± 4.9%) i/s -      2.075M in   5.044099s
+Enumerable#each_with_object   459.695k (± 3.3%) i/s -      2.337M in   5.090124s
+ Object#tap plus Array#each   455.039k (± 3.7%) i/s -      2.290M in   5.040278s
+
+Comparison:
+                 Array#each:  526422.7 i/s
+                 Array#to_h:  478397.0 i/s - 1.10x  (± 0.00) slower
+Enumerable#each_with_object:  459695.4 i/s - 1.15x  (± 0.00) slower
+ Object#tap plus Array#each:  455039.5 i/s - 1.16x  (± 0.00) slower
+  Array#map plus Array#to_h:  412381.8 i/s - 1.28x  (± 0.00) slower
+    Hash::[] plus Array#map:  410417.2 i/s - 1.28x  (± 0.00) slower
+```
+
 ### Enumerable
 
 ##### `Enumerable#each + push` vs `Enumerable#map` [code](code/enumerable/each-push-vs-map.rb)
