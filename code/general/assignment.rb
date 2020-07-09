@@ -1,24 +1,29 @@
 require 'benchmark/ips'
 
 def fast
-  _a, _b, _c, _d, _e, _f, _g, _h = 1, 2, 3, 4, 5, 6, 7, 8
+  _a, _b, _c, _d, _e, _f, _g = :a, :b, :c, :d, :e, :f, :g
+  nil
+end
+
+def fast2
+  _a, _b, _c, _d, _e, _f, _g = %i[a b c d e f g]
   nil
 end
 
 def slow
-  _a = 1
-  _b = 2
-  _c = 3
-  _d = 4
-  _e = 5
-  _f = 6
-  _g = 7
-  _h = 8
+  _a = :a
+  _b = :b
+  _c = :c
+  _d = :d
+  _e = :e
+  _f = :f
+  _g = :g
   nil
 end
 
-Benchmark.ips do |x|
-  x.report('Parallel Assignment')   { fast }
-  x.report('Sequential Assignment') { slow }
-  x.compare!
+Benchmark.ips do |bm|
+  bm.report('Direct Parallel Assignment') {fast}
+  bm.report('Array Parallel Assignment')  {fast2}
+  bm.report('Sequential Assignment')      {slow}
+  bm.compare!
 end

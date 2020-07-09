@@ -12,8 +12,6 @@ require 'benchmark/ips'
 # - hanami
 #   - https://github.com/hanami/hanami/blob/506a35e5262939eb4dce9195ade3268e19928d00/lib/hanami/components/routes_inspector.rb#L54
 #   - https://github.com/hanami/hanami/blob/aec069b602c772e279aa0a7f48d1a04d01756ee3/lib/hanami/configuration.rb#L114
-raise unless Object.ancestors.include?(Kernel)
-raise unless (Object <= Kernel)
 
 def fast
   (Class <= Class)
