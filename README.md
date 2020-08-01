@@ -447,6 +447,27 @@ Comparison:
         Array#insert:        0.2 i/s - 262.56x slower
 ```
 
+##### `Array#sort.reverse` vs `Array#sort_by` +  block [code](code/array/sort-reverse-vs-sort_by-with-block.rb)
+
+```
+$ ruby -v code/array/sort-reverse-vs-sort_by.rb
+ruby 2.5.2p104 (2018-10-18 revision 65133) [x86_64-darwin13]
+Warming up --------------------------------------
+Array#sort.reverse
+                        16.231k i/100ms
+Array#sort_by &:-@
+                         5.406k i/100ms
+Calculating -------------------------------------
+Array#sort.reverse
+                        149.492k (±11.0%) i/s -    746.626k in   5.070375s
+Array#sort_by &:-@
+                         51.981k (± 8.8%) i/s -    259.488k in   5.041625s
+
+Comparison:
+Array#sort.reverse:   149492.2 i/s
+Array#sort_by &:-@:    51980.6 i/s - 2.88x  (± 0.00) slower
+```
+
 ### Enumerable
 
 ##### `Enumerable#each + push` vs `Enumerable#map` [code](code/enumerable/each-push-vs-map.rb)
