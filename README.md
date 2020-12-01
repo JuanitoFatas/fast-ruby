@@ -248,6 +248,20 @@ Comparison:
              &method:   467095.4 i/s - 4.00x slower
 ```
 
+##### Encapsulating method with Proc vs `method` [code](code/method/proc-vs-method.rb)
+```
+$ ruby -v code/method/proc-vs-method.rb
+ruby 2.7.1p83 (2020-03-31 revision a0c7c23c9c) [x86_64-darwin19]
+
+Calculating -------------------------------------
+             #method      2.205M (± 3.9%) i/s -     11.194M in   5.085555s
+                proc      1.676M (± 4.4%) i/s -      8.411M in   5.029681s
+
+Comparison:
+             #method:  2205490.1 i/s
+                proc:  1676063.1 i/s - 1.32x  (± 0.00) slower
+```
+
 ##### Function with single Array argument vs splat arguments [code](code/general/array-argument-vs-splat-arguments.rb)
 
 ```
