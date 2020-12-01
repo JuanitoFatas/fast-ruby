@@ -230,22 +230,19 @@ Comparison:
       method_missing:  2728893.0 i/s - 1.40x slower
 ```
 
-##### Normal way to apply method vs `&method(...)` [code](code/general/block-apply-method.rb)
+##### Normal way to apply method vs `&method(...)` [code](code/method/block-apply-method.rb)
 
 ```
-$ ruby -v code/general/block-apply-method.rb
-ruby 2.2.2p95 (2015-04-13 revision 50295) [x86_64-darwin14]
+$ ruby -v code/method/block-apply-method.rb
+ruby 2.7.1p83 (2020-03-31 revision a0c7c23c9c) [x86_64-darwin19]
 
 Calculating -------------------------------------
-              normal    85.749k i/100ms
-             &method    35.529k i/100ms
--------------------------------------------------
-              normal      1.867M (± 7.6%) i/s -      9.347M
-             &method    467.095k (± 6.4%) i/s -      2.345M
+              normal      3.269M (± 1.8%) i/s -     16.540M in   5.061172s
+             &method    922.292k (± 2.2%) i/s -      4.691M in   5.088549s
 
 Comparison:
-              normal:  1866669.5 i/s
-             &method:   467095.4 i/s - 4.00x slower
+              normal:  3269104.2 i/s
+             &method:   922291.6 i/s - 3.54x  (± 0.00) slower
 ```
 
 ##### Function with single Array argument vs splat arguments [code](code/general/array-argument-vs-splat-arguments.rb)
