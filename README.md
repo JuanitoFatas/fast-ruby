@@ -1064,22 +1064,27 @@ Comparison:
           String#dup:  3566485.7 i/s - 2.16x  slower
 ```
 
-##### `String#casecmp` vs `String#downcase + ==` [code](code/string/casecmp-vs-downcase-==.rb)
+##### `String#casecmp` vs  `String#casecmp?` vs `String#downcase + ==` [code](code/string/casecmp-vs-downcase-==.rb)
+
+`String#casecmp?` is available on Ruby 2.4 or later.
+Note that `String#casecmp` only works on characters A-Z/a-z, not all of Unicode.
 
 ```
 $ ruby -v code/string/casecmp-vs-downcase-\=\=.rb
-ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-darwin14]
-
+ruby 2.7.1p83 (2020-03-31 revision a0c7c23c9c) [x86_64-darwin19]
+Warming up --------------------------------------
+     String#casecmp?   395.796k i/100ms
+String#downcase + ==   543.958k i/100ms
+      String#casecmp   730.028k i/100ms
 Calculating -------------------------------------
-String#downcase + ==   101.900k i/100ms
-      String#casecmp   109.828k i/100ms
--------------------------------------------------
-String#downcase + ==      2.915M (± 5.4%) i/s -     14.572M
-      String#casecmp      3.708M (± 6.1%) i/s -     18.561M
+     String#casecmp?      3.687M (±10.9%) i/s -     18.602M in   5.158065s
+String#downcase + ==      5.017M (±11.3%) i/s -     25.022M in   5.089175s
+      String#casecmp      6.948M (± 6.0%) i/s -     35.041M in   5.062714s
 
 Comparison:
-      String#casecmp:  3708258.7 i/s
-String#downcase + ==:  2914767.7 i/s - 1.27x slower
+      String#casecmp:  6948231.0 i/s
+String#downcase + ==:  5017089.5 i/s - 1.38x  (± 0.00) slower
+     String#casecmp?:  3686650.7 i/s - 1.88x  (± 0.00) slower
 ```
 
 ##### String Concatenation [code](code/string/concatenation.rb)
