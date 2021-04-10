@@ -133,6 +133,26 @@ Comparison:
 module_eval with string:     1129.7 i/s - 1.19x slower
 ```
 
+##### Method vs Forwarded method vs Delegated method [code](code/general/method-vs-forwarded-method-vs-delegated-method.rb)
+
+```
+$ ruby -v code/general/method-vs-forwarded-method-vs-delegated-method.rb
+ruby 2.2.0p0 (2014-12-25 revision 49005) [x86_64-darwin19]
+Warming up --------------------------------------
+              method   247.079k i/100ms
+    forwarded method   183.323k i/100ms
+    delegated method   136.666k i/100ms
+Calculating -------------------------------------
+              method      2.481M (± 0.5%) i/s -     12.601M in   5.078755s
+    forwarded method      1.830M (± 0.8%) i/s -      9.166M in   5.009606s
+    delegated method      1.365M (± 0.6%) i/s -      6.833M in   5.006191s
+
+Comparison:
+              method:  2481182.0 i/s
+    forwarded method:  1829835.8 i/s - 1.36x  (± 0.00) slower
+    delegated method:  1365026.7 i/s - 1.82x  (± 0.00) slower
+```
+
 ##### `raise` vs `E2MM#Raise` for raising (and defining) exeptions  [code](code/general/raise-vs-e2mmap.rb)
 
 Ruby's [Exception2MessageMapper module](http://ruby-doc.org/stdlib-2.2.0/libdoc/e2mmap/rdoc/index.html) allows one to define and raise exceptions with predefined messages.
