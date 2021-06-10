@@ -963,6 +963,27 @@ Array#each_w/_object:  1352851.8 i/s - 1.88x  slower
 Hash#select-include :   760944.2 i/s - 3.34x  slower
 ```
 
+##### `Hash#has_key?` vs `Set#include?` [code](code/hash/set-vs-hash-include.rb)
+
+When checking for the presence of an element in an associative set.
+
+> Aliases of `Hash#has_key?`: `Hash#include?`, `Hash#member?`, `Hash#key?`.
+>
+> Aliases of `Set#include?`: `Set#member?`, `Set#===`.
+
+```
+ruby 3.0.1p64 (2021-04-05 revision 0fb782ee38) [x86_64-darwin19]
+Warming up --------------------------------------
+       Hash#has_key?   849.008k i/100ms
+        Set#include?   744.386k i/100ms
+Calculating -------------------------------------
+       Hash#has_key?      8.550M (± 1.4%) i/s -     43.299M in   5.065260s
+        Set#include?      7.448M (± 1.5%) i/s -     37.964M in   5.098234s
+
+Comparison:
+       Hash#has_key?:  8550055.4 i/s
+        Set#include?:  7448196.8 i/s - 1.15x  (± 0.00) slower
+```
 
 ### Proc & Block
 
